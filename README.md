@@ -64,7 +64,21 @@ Base URL: `http://localhost:3000/api/v1/employee`
 ### 1. Add Employee
 Create a new employee record.
 
-**Endpoint:** `POST /add-employee`
+**URL:** `http://localhost:3000/api/v1/employee/add-employee`
+
+**Method:** `POST`
+
+**cURL Example:**
+```bash
+curl -X POST http://localhost:3000/api/v1/employee/add-employee \
+  -H "Content-Type: application/json" \
+  -d '{
+    "name": "John Doe",
+    "email": "john.doe@example.com",
+    "position": "Software Engineer",
+    "salary": 75000
+  }'
+```
 
 **Request Body:**
 ```json
@@ -92,15 +106,21 @@ Create a new employee record.
 ### 2. Get All Employees
 Retrieve a paginated list of all employees.
 
-**Endpoint:** `GET /view-employees`
+**URL:** `http://localhost:3000/api/v1/employee/view-employees`
+
+**Method:** `GET`
 
 **Query Parameters:**
 - `page` (optional): Page number (default: 1)
 - `limit` (optional): Number of records per page (default: 10)
 
-**Example:**
-```
-GET /view-employees?page=1&limit=10
+**cURL Examples:**
+```bash
+# Get all employees (default pagination)
+curl -X GET http://localhost:3000/api/v1/employee/view-employees
+
+# Get employees with pagination
+curl -X GET "http://localhost:3000/api/v1/employee/view-employees?page=1&limit=10"
 ```
 
 **Response (Success - 200):**
@@ -126,14 +146,16 @@ GET /view-employees?page=1&limit=10
 ### 3. Get Employee by ID
 Retrieve a specific employee by their ID.
 
-**Endpoint:** `GET /view-employees/:id`
+**URL:** `http://localhost:3000/api/v1/employee/view-employees/:id`
+
+**Method:** `GET`
 
 **URL Parameters:**
 - `id`: Employee ID (integer)
 
-**Example:**
-```
-GET /view-employees/1
+**cURL Example:**
+```bash
+curl -X GET http://localhost:3000/api/v1/employee/view-employees/1
 ```
 
 **Response (Success - 200):**
@@ -162,10 +184,23 @@ GET /view-employees/1
 ### 4. Update Employee
 Update an existing employee's information.
 
-**Endpoint:** `PUT /update-employee/:id`
+**URL:** `http://localhost:3000/api/v1/employee/update-employee/:id`
+
+**Method:** `PUT`
 
 **URL Parameters:**
 - `id`: Employee ID (integer)
+
+**cURL Example:**
+```bash
+curl -X PUT http://localhost:3000/api/v1/employee/update-employee/1 \
+  -H "Content-Type: application/json" \
+  -d '{
+    "name": "John Smith",
+    "position": "Senior Software Engineer",
+    "salary": 90000
+  }'
+```
 
 **Request Body:**
 ```json
@@ -202,9 +237,16 @@ Update an existing employee's information.
 ### 5. Delete Employee
 Delete an employee record.
 
-**Endpoint:** `DELETE /delete-employee`
+**URL:** `http://localhost:3000/api/v1/employee/delete-employee`
 
-**Note:** This endpoint currently expects the employee ID to be passed as a query parameter or in the request body. The route may need to be updated to include `:id` in the path.
+**Method:** `DELETE`
+
+**Note:** The delete endpoint route currently doesn't include `:id` in the path, but the controller expects `req.params.id`. You may need to update the route to `/delete-employee/:id` for this to work properly.
+
+**cURL Example:**
+```bash
+curl -X DELETE http://localhost:3000/api/v1/employee/delete-employee
+```
 
 **Response (Success - 204):**
 ```
@@ -268,6 +310,23 @@ The API returns appropriate HTTP status codes:
 - `204`: Success (No Content)
 - `400`: Bad Request (validation errors, employee not found)
 - `500`: Internal Server Error
+
+## Quick Reference - All Endpoints
+
+Here are all the testable URLs for quick access:
+
+| Method | Endpoint | Description |
+|--------|----------|-------------|
+| `POST` | `http://localhost:3000/api/v1/employee/add-employee` | Add a new employee |
+| `GET` | `http://localhost:3000/api/v1/employee/view-employees` | Get all employees (with pagination) |
+| `GET` | `http://localhost:3000/api/v1/employee/view-employees/:id` | Get employee by ID |
+| `PUT` | `http://localhost:3000/api/v1/employee/update-employee/:id` | Update employee by ID |
+| `DELETE` | `http://localhost:3000/api/v1/employee/delete-employee` | Delete employee |
+
+**Example URLs (replace `:id` with actual ID):**
+- `http://localhost:3000/api/v1/employee/view-employees/1`
+- `http://localhost:3000/api/v1/employee/update-employee/1`
+- `http://localhost:3000/api/v1/employee/view-employees?page=1&limit=10`
 
 ## License
 
