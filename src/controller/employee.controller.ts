@@ -31,3 +31,18 @@ export const addemplye= async (req: Request, res: Response)=>{
         return res.status(500).json({ msg: "Internal server error" });
     }
 }
+export const viewEmployeeById = async (req:Request,res: Response)=>{
+    const { id } = req.params;
+    const numericId = Number(id);
+
+    const employee= await prismaClient.employee.findUnique({
+        where:{
+            id: numericId
+        }
+    })
+    if(!employee){
+        res.status(400).json({msg:"user doesnot exists"})
+        return
+    }
+    return res.status(200).json({data: employee})
+}
