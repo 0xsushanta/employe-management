@@ -71,3 +71,16 @@ export const updateEmploye=  async (req:Request, res:Response)=>{
         res.status(500).json({ error: `Failed to update employee ${error}` });
     }
 }
+export const deleteEmployee= async (req:Request, res: Response)=>{
+    try {
+        const id= Number(req.params.id)
+        await prismaClient.employee.delete({
+            where:{
+                id
+            }
+        })
+        return res.status(204).json("emplpoyee deleted succesfully")
+    } catch (error) {
+        return res.status(500).json({ error: "Failed to delete employee" });
+    }
+}
