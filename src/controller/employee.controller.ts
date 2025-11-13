@@ -1,5 +1,5 @@
 import type { Request, Response } from "express";
-import { addUserSchema } from "../config/types.js";
+import { addUserSchema} from "../config/types.js";
 import { prismaClient } from "../config/dbconfig.js";
 export const addemplye= async (req: Request, res: Response)=>{
     const parseData= addUserSchema.safeParse(req.body)
@@ -56,4 +56,18 @@ export const getEmployees = async (req: Request,res: Response)=>{
         orderBy: {createdAt:"desc"}
     })
     res.json({ page, limit, data: employees });
+}
+export const updateEmploye=  async (req:Request, res:Response)=>{
+    try {
+        const id = Number(req.params.id);
+        const updated= await prismaClient.employee.update({
+            where:{
+             id   
+            },
+            data: req.body
+        })
+        res.status(200).json(updated)
+    } catch (error) {
+        res.status(500).json({ error: `Failed to update employee ${error}` });
+    }
 }
