@@ -79,7 +79,7 @@ export const deleteEmployee= async (req:Request, res: Response)=>{
                 id
             }
         })
-        return res.status(204).json("emplpoyee deleted succesfully")
+        return res.status(200).json("emplpoyee deleted succesfully")
     } catch (error) {
         return res.status(500).json({ error: "Failed to delete employee" });
     }

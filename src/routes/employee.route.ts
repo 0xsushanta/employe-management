@@ -5,5 +5,5 @@ router.post("/add-employee",addemplye)
 router.put("/update-employee/:id",updateEmploye)
 router.get("/view-employees/:id",viewEmployeeById)
 router.get("/view-employees", getEmployees);
-router.delete("/delete-employee", deleteEmployee)
+router.delete("/delete-employee/:id", deleteEmployee)
 export default router
