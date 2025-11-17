@@ -1,61 +1,59 @@
 # Employee Management API
 
-A RESTful API for managing employee information built with Node.js, Express, TypeScript, and Prisma ORM.
+Backend API for creating, reading, updating, and deleting employee records. Built with Express.js, TypeScript, Prisma, and SQLite.
+
+## Features
+
+- CRUD endpoints for employee records with pagination
+- Prisma ORM + SQLite storage (easy to swap to another database)
+- Request validation powered by Zod
+- Simple `.env` driven configuration
 
 ## Tech Stack
 
-- **Runtime**: Node.js
-- **Framework**: Express.js v5.1.0
-- **Language**: TypeScript v5.9.3
-- **ORM**: Prisma v6.19.0
-- **Database**: SQLite
-- **Validation**: Zod v4.1.12
-- **Environment Variables**: dotenv v17.2.3
+| Layer | Tooling |
+| --- | --- |
+| Runtime | Node.js 18+ |
+| Framework | Express 5 |
+| Language | TypeScript 5 |
+| ORM | Prisma 6 |
+| Database | SQLite (default `dev.db`) |
+| Validation | Zod 4 |
+| Env management | dotenv |
 
-## Prerequisites
+## Getting Started
 
-- Node.js (v14 or higher)
-- npm or yarn
-- TypeScript
+### Prerequisites
 
-## Installation
+- Node.js 18 or higher
+- npm (ships with Node)
 
-1. Clone the repository:
+### Installation
+
+1. Clone the repo and install dependencies
+   ```bash
+   git clone <repository-url>
+   cd empolyemanagment
+   npm install
+   ```
+2. Create a `.env` file in the project root
+   ```env
+   DATABASE_URL="file:./prisma/dev.db"
+   PORT=3000
+   ```
+3. Prepare the database
+   ```bash
+   npx prisma generate
+   npx prisma migrate dev --name init
+   ```
+
+### Available Scripts
+
 ```bash
-git clone <repository-url>
-cd empolyemanagment
+npm run dev   # Compile TypeScript (tsc -b) then start dist/index.js
 ```
 
-2. Install dependencies:
-```bash
-npm install
-```
-
-3. Set up environment variables:
-Create a `.env` file in the root directory:
-```env
-DATABASE_URL="file:./prisma/dev.db"
-PORT=3000
-```
-
-4. Generate Prisma Client:
-```bash
-npx prisma generate
-```
-
-5. Run database migrations:
-```bash
-npx prisma migrate dev
-```
-
-## Running the Application
-
-### Development Mode
-```bash
-npm run dev
-```
-
-The server will start on the port specified in your `.env` file (default: 3000).
+The app listens on `PORT` from `.env` (defaults to 3000).
 
 ## API Endpoints
 
@@ -237,19 +235,17 @@ curl -X PUT http://localhost:3000/api/v1/employee/update-employee/1 \
 ### 5. Delete Employee
 Delete an employee record.
 
-**URL:** `http://localhost:3000/api/v1/employee/delete-employee`
+**URL:** `http://localhost:3000/api/v1/employee/delete-employee/:id`
 
 **Method:** `DELETE`
 
-**Note:** The delete endpoint route currently doesn't include `:id` in the path, but the controller expects `req.params.id`. You may need to update the route to `/delete-employee/:id` for this to work properly.
-
 **cURL Example:**
 ```bash
-curl -X DELETE http://localhost:3000/api/v1/employee/delete-employee
+curl -X DELETE http://localhost:3000/api/v1/employee/delete-employee/1
 ```
 
-**Response (Success - 204):**
-```
+**Response (Success - 200):**
+```json
 "emplpoyee deleted succesfully"
 ```
 
@@ -313,20 +309,19 @@ The API returns appropriate HTTP status codes:
 
 ## Quick Reference - All Endpoints
 
-Here are all the testable URLs for quick access:
-
 | Method | Endpoint | Description |
-|--------|----------|-------------|
-| `POST` | `http://localhost:3000/api/v1/employee/add-employee` | Add a new employee |
-| `GET` | `http://localhost:3000/api/v1/employee/view-employees` | Get all employees (with pagination) |
-| `GET` | `http://localhost:3000/api/v1/employee/view-employees/:id` | Get employee by ID |
-| `PUT` | `http://localhost:3000/api/v1/employee/update-employee/:id` | Update employee by ID |
-| `DELETE` | `http://localhost:3000/api/v1/employee/delete-employee` | Delete employee |
+| --- | --- | --- |
+| `POST` | `/api/v1/employee/add-employee` | Create a new employee |
+| `GET` | `/api/v1/employee/view-employees` | List employees with pagination |
+| `GET` | `/api/v1/employee/view-employees/:id` | Get employee by ID |
+| `PUT` | `/api/v1/employee/update-employee/:id` | Update employee by ID |
+| `DELETE` | `/api/v1/employee/delete-employee/:id` | Delete employee by ID |
 
-**Example URLs (replace `:id` with actual ID):**
+**Example URLs**
+- `http://localhost:3000/api/v1/employee/view-employees?page=1&limit=10`
 - `http://localhost:3000/api/v1/employee/view-employees/1`
 - `http://localhost:3000/api/v1/employee/update-employee/1`
-- `http://localhost:3000/api/v1/employee/view-employees?page=1&limit=10`
+- `http://localhost:3000/api/v1/employee/delete-employee/1`
 
 ## License
 
